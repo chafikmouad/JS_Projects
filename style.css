@@ -12,7 +12,7 @@ h1{
     width: 800px;
     margin: auto;
     height: auto;
-    border: 1px solid black;
+    border: 1px solid white;
     padding: 20px;
     border-radius: 10px;
 }
@@ -100,3 +100,4 @@ button:hover{
     color: darkred;
 
 }
+
