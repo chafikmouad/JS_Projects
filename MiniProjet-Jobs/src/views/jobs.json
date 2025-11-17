@@ -1,0 +1,57 @@
+[
+  {
+    "id": 1,
+    "titre": "Développeur Full Stack",
+    "description": "Développement d'applications web en React et Node.js pour une startup en pleine croissance.",
+    "salaire": "45 000 - 55 000 € / an",
+    "lieu": "Paris, France",
+    "type_contrat": "CDI",
+    "niveau_experience": "2-4 ans",
+    "secteur": "Technologie",
+    "entreprise": "TechSolutions"
+  },
+  {
+    "id": 2,
+    "titre": "Data Analyst Junior",
+    "description": "Analyse de données pour des projets internes de visualisation et de reporting.",
+    "salaire": "32 000 - 40 000 € / an",
+    "lieu": "Lyon, France",
+    "type_contrat": "CDD",
+    "niveau_experience": "0-2 ans",
+    "secteur": "Finance",
+    "entreprise": "DataWise"
+  },
+  {
+    "id": 3,
+    "titre": "Ingénieur DevOps",
+    "description": "Automatisation des pipelines CI/CD et gestion des infrastructures cloud.",
+    "salaire": "50 000 - 65 000 € / an",
+    "lieu": "Marseille, France",
+    "type_contrat": "CDI",
+    "niveau_experience": "3-5 ans",
+    "secteur": "Informatique",
+    "entreprise": "CloudOps"
+  },
+  {
+    "id": 4,
+    "titre": "UX/UI Designer",
+    "description": "Création d’interfaces utilisateurs intuitives pour des applications mobiles et web.",
+    "salaire": "38 000 - 48 000 € / an",
+    "lieu": "Toulouse, France",
+    "type_contrat": "CDI",
+    "niveau_experience": "2-3 ans",
+    "secteur": "Design",
+    "entreprise": "DesignFlow"
+  },
+  {
+    "id": 5,
+    "titre": "Chef de projet IT",
+    "description": "Coordination de projets informatiques en méthode Agile avec équipes pluridisciplinaires.",
+    "salaire": "55 000 - 70 000 € / an",
+    "lieu": "Casablanca, Maroc",
+    "type_contrat": "CDI",
+    "niveau_experience": "5+ ans",
+    "secteur": "Gestion de projets",
+    "entreprise": "InnovaTech"
+  }
+]
