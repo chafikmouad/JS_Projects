@@ -1,0 +1,81 @@
+/**
+ * Règles de sécurité Firestore
+ 
+ */
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Fonction helper pour vérifier le rôle de l'utilisateur
+    function getUserRole() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role;
+    }
+    
+    function isAdmin() {
+      return request.auth != null && getUserRole() == 'admin';
+    }
+    
+    function isModerator() {
+      return request.auth != null && getUserRole() in ['moderator', 'admin'];
+    }
+    
+    function isOwner(authorId) {
+      return request.auth != null && request.auth.uid == authorId;
+    }
+    
+    // ==========================================
+    // Collection: users
+    // ==========================================
+    // - Lecture publique (pour afficher les noms d'auteurs)
+    // - Création: utilisateur authentifié et c'est son propre document
+    // - Modification: utilisateur authentifié et c'est son propre document
+    // - Les admins peuvent modifier le rôle des autres utilisateurs
+    match /users/{userId} {
+      allow read: if true;
+      allow create: if request.auth != null && request.auth.uid == userId;
+      allow update: if request.auth != null && 
+        (request.auth.uid == userId || isAdmin());
+      allow delete: if isAdmin();
+    }
+    
+    // ==========================================
+    // Collection: discussions
+    // ==========================================
+    // - Lecture publique
+    // - Création: utilisateur authentifié
+    // - Modification/Suppression: auteur, modérateur ou admin
+    match /discussions/{discussionId} {
+      allow read: if true;
+      allow create: if request.auth != null;
+      allow update, delete: if request.auth != null && 
+        (isOwner(resource.data.authorId) || isModerator());
+    }
+    
+    // ==========================================
+    // Collection: responses
+    // ==========================================
+    // - Lecture publique
+    // - Création: utilisateur authentifié
+    // - Modification/Suppression: auteur, modérateur ou admin
+    match /responses/{responseId} {
+      allow read: if true;
+      allow create: if request.auth != null;
+      allow update, delete: if request.auth != null && 
+        (isOwner(resource.data.authorId) || isModerator());
+    }
+    
+    // ==========================================
+    // Collection: reports
+    // ==========================================
+    // - Lecture: modérateurs et admins uniquement
+    // - Création: utilisateur authentifié
+    // - Suppression: modérateurs et admins uniquement
+    match /reports/{reportId} {
+      allow read: if isModerator();
+      allow create: if request.auth != null;
+      allow update: if isModerator();
+      allow delete: if isModerator();
+    }
+  }
+}
