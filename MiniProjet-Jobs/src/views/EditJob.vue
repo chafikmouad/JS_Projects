@@ -1,8 +1,13 @@
 <template>
   <div>
-    <form v-if="job">
-      <div v-for="(value, key) in job" :key="key">
-        <input type="text" v-if="key !== 'id'" v-model="value" />
+    <form v-if="editableJob" @submit.prevent="save">
+      <div v-for="(val, key) in editableJob" :key="key" v-if="key !== 'id'">
+        <label :for="key">{{ key }}</label>
+        <input :id="key" type="text" v-model="editableJob[key]" />
+      </div>
+      <div style="margin-top:12px">
+        <button type="button" @click="cancel">Annuler</button>
+        <button type="submit">Enregistrer</button>
       </div>
     </form>
     <div v-else>
@@ -15,17 +20,33 @@
 import jobs from './jobs.json';
 
 export default {
-  // Le routeur transmet le param `id` en prop (router: props: true)
+  name: 'EditJob',
   props: ['id'],
-  computed: {
-    job() {
-      const id = Number(this.id);
-      return jobs.find(item => item.id === id) || null;
+  data() {
+    return {
+      editableJob: null
     }
   },
-  data(){
-    return {
-      value: 20
+  created() {
+    this.loadJob()
+  },
+  watch: {
+    id() { this.loadJob() }
+  },
+  methods: {
+    loadJob() {
+      const idNum = Number(this.id)
+      const found = jobs.find(item => item.id === idNum) || null
+      // create a local editable copy
+      this.editableJob = found ? JSON.parse(JSON.stringify(found)) : null
+    },
+    save() {
+      // Persist changes: currently jobs.json is static; here just log and go back.
+      console.log('Saved job (local only):', this.editableJob)
+      this.$router.push({ name: 'Administrator' })
+    },
+    cancel() {
+      this.$router.back()
     }
   }
 }
@@ -50,7 +71,7 @@ p strong, p b {
   color: #0b5fff;
 }
 
-/* key label formatting */
+
 div > p::before {
   content: '';
 }

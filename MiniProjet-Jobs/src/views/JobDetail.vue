@@ -17,7 +17,7 @@
 import jobs from './jobs.json';
 
 export default {
-  // Le routeur transmet le param `id` en prop (router: props: true)
+
   props: ['id'],
   computed: {
     job() {
@@ -29,7 +29,7 @@ export default {
 </script>
 
 <style scoped>
-/* Job detail presentation */
+
 .job-detail {
   background: #ffffff;
   padding: 1rem 1.2rem;
@@ -47,7 +47,6 @@ p strong, p b {
   color: #0b5fff;
 }
 
-/* key label formatting */
 div > p::before {
   content: '';
 }

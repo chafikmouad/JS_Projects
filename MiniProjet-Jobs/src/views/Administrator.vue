@@ -3,12 +3,14 @@
     <div>
       <h1>Administrator interface</h1>
       <h2>Jobs</h2>
+      <router-link to="/add-job" class="btn primary">Ajouter un job</router-link>
     </div>
     <div class="card-container" v-for="value in jobs" :key="value.id">
       <div>
         <router-link :to="`/job/${value.id}`">{{ value.titre }} - {{ value.entreprise }}</router-link>
-        <br><br><button @click="import('../views/EditJob.vue')">Modifier Job</button><span>&ThinSpace;</span>
-        <button @click="deleteJob">Supprimer Job</button>
+        <br><br>
+        <button @click="modifyJob(value.id)">Modifier Job</button><span>&ThinSpace;</span>
+        <button @click="deleteJob(value.id)">Supprimer Job</button>
       </div>
     </div>
   </div>
@@ -25,18 +27,21 @@ export default {
     }
   },
   created() {
-    // Importer le JSON à la compilation est plus fiable avec Vite
-    // (évite les problèmes de chemin relatif et CORS quand le fichier est dans `src/`).
     try {
       this.jobs = jobsData;
-      console.log('Jobs chargés (import):', this.jobs.length);
     } catch (error) {
       console.error('Erreur lors du chargement des jobs importés :', error);
     }
   },
-  methods : {
-    modifyJob(){
-
+  methods: {
+    modifyJob(id) {
+      // navigate to edit route (route must exist and pass props)
+      this.$router.push({ name: 'EditJob', params: { id } })
+    },
+    deleteJob(id) {
+      if (!confirm('Supprimer ce job ?')) return
+      this.jobs = this.jobs.filter(j => j.id !== id)
+      // if using an API/store, call delete there
     }
   }
 }
